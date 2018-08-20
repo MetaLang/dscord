@@ -16,7 +16,7 @@ shared struct WorkerState {
 
 bool maybeSendCompat(T)(Task dest, T data) {
   if (!dest.running) return false;
-  dest.sendCompat(data);
+  dest.send(data);
   return true;
 }
 
