@@ -67,7 +67,7 @@ class YoutubeDL {
     size_t count = 0;
     while (true) {
       try {
-        string line = receiveOnlyCompat!(string);
+        string line = receiveOnly!(string);
         runTask(cb, parseJsonString(line));
         count += 1;
       } catch (MessageMismatch e) {
@@ -88,7 +88,7 @@ class YoutubeDL {
 
     while (true) {
       try {
-        string line = receiveOnlyCompat!(string);
+        string line = receiveOnly!(string);
         result ~= parseJsonString(line);
       } catch (MessageMismatch e) {
         break;
@@ -118,7 +118,7 @@ class YoutubeDL {
   */
   static DCAFile download(string url) {
     Task worker = runWorkerTaskH(&YoutubeDL.downloadWorker, Task.getThis, url);
-      auto frames = receiveOnlyCompat!(shared ubyte[][])();
+      auto frames = receiveOnly!(shared ubyte[][])();
     return new DCAFile(cast(ubyte[][])frames);
   }
 }
