@@ -212,7 +212,8 @@ private bool loadSingleField(T, Z)(T sourceObj, ref Z result, VibeJSON data) {
       result = new Z;
       result.deserializeFromJSON(data);
     }
-  } else static if (isSomeString!Z) {
+  } else static if (isSomeString!Z
+      || (is(Z == enum) && isSomeString!(OriginalType!Z))) {
     static if (__traits(compiles, {
       result = cast(Z)data.get!string;
     })) {
