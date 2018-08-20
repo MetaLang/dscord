@@ -16,6 +16,7 @@ import core.time,
 
 import vibe.core.core,
        vibe.core.net,
+       vibe.core.sync,
        vibe.inet.url,
        vibe.http.websockets;
 

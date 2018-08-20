@@ -9,7 +9,8 @@ import std.conv,
        core.time,
        core.sync.mutex;
 
-import vibe.core.core;
+import vibe.core.core,
+       vibe.core.sync;
 
 import dscord.api.routes,
        dscord.util.time;
