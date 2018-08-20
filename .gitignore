@@ -13,3 +13,6 @@ dub.selections.json
 *.suo
 *.dll
 *.exe
+
+*.sublime-project
+*.sublime-workspace
