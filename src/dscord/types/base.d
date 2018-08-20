@@ -39,7 +39,7 @@ class AsyncChainer(T) {
   private {
     T obj;
     AsyncChainer!T parent;
-    ManualEvent resolveEvent;
+    LocalManualEvent resolveEvent;
     bool ignoreFailure;
   }
 

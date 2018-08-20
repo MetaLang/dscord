@@ -17,6 +17,7 @@ import core.time,
 import vibe.core.core,
        vibe.core.net,
        vibe.core.sync,
+       vibe.core.task,
        vibe.inet.url,
        vibe.http.websockets;
 
@@ -158,7 +159,7 @@ class VoiceClient {
     Logger  log;
 
     // Event triggered when connection is complete
-    ManualEvent  waitForConnected;
+    LocalManualEvent  waitForConnected;
 
     // Player task
     Task  playerTask;
@@ -190,7 +191,7 @@ class VoiceClient {
     EventListener  updateListener;
 
     // Used to control pausing state
-    ManualEvent pauseEvent;
+    LocalManualEvent pauseEvent;
   }
 
   this(Channel c, bool mute=false, bool deaf=false) {
@@ -269,7 +270,11 @@ class VoiceClient {
 
   /// Whether the player is currently paused
   @property bool paused() {
-    return (this.pauseEvent !is null);
+    //Vibe.d changed (Local)ManualEvent from a struct to a class,
+    //so checking if pauseEvent is null is no longer valid code.
+    //Instead, use LocalManualEvent.opCast, which returns true
+    //if its m_waiter member is not null, or false if it is
+    return cast(bool)this.pauseEvent;
   }
 
   /// Pause the player
@@ -291,7 +296,8 @@ class VoiceClient {
 
     // Avoid race conditions by copying
     auto e = this.pauseEvent;
-    this.pauseEvent = null;
+    //Not sure that this is a good idea. May be better to use Nullable!LocalManualEvent
+    this.pauseEvent = LocalManualEvent.init;
     e.emit();
     return true;
   }
@@ -374,7 +380,8 @@ class VoiceClient {
 
     // If we are currently playing something, kill it
     if (this.playerTask && this.playerTask.running) {
-      this.playerTask.terminate();
+      //Probably not correct, but I don't yet know what the equialvent to Task.terminate should be
+      this.playerTask.interrupt();
     }
 
     this.playable = p;
