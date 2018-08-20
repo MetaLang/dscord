@@ -510,7 +510,7 @@ class VoiceClient {
     this.state = VoiceStatus.CONNECTED;
 
     // Grab endpoint and create a proper URL out of it
-    this.endpoint = URL("ws", event.endpoint.split(":")[0], 0, Path());
+    this.endpoint = URL("ws", event.endpoint.split(":")[0], 0, NativePath());
     this.sock = connectWebSocket(this.endpoint);
     runTask(&this.run);
 
