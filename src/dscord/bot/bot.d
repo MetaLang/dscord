@@ -172,7 +172,7 @@ class Bot {
     return (this.config.features & reduce!((a, b) => a & b)(features)) > 0;
   }
 
-  private void tryHandleCommand(CommandEvent event) {
+  public void tryHandleCommand(CommandEvent event) {
     // If we require a mention, make sure we got it
     if (this.config.cmdRequireMention) {
       if (!event.msg.mentions.length) {
